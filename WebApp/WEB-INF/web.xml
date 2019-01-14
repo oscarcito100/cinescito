@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>cinesCito</display-name>
+  <!--  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>-->
+  
+  <!-- 1. Configuration DispatcherServlet: it will look always for the file dispatcher-servlet.xml 
+       that contains all the BEANS and the configuration of Spring MVC -->
+  <servlet>
+  	<servlet-name>dispatcher</servlet-name>
+  	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  	<init-param>
+  		<param-name>contextConfigLocation</param-name>
+  		<param-value>/WEB-INF/spring/dispatcher-servlet.xml</param-value> <!-- new url for the file -->
+  	</init-param>
+  	<load-on-startup>1</load-on-startup> <!-- this is the first servlet in being charged with the app -->
+  	
+  	<!-- 2. Allow us to update files from an html file, saving it in a temporary folder and when there is no errors sending it to the final directory -->
+  	<multipart-config> 
+  		<location>c:\tmp</location> 
+  	</multipart-config>
+  </servlet>
+  
+  <!-- 3. Configurating the mapping of the servlet -->
+  <servlet-mapping>
+  	<servlet-name>dispatcher</servlet-name>
+  	<!-- <url-pattern>*.html</url-pattern> --> <!-- process all files with termination in .html -->
+  	<url-pattern>/</url-pattern> <!-- respond to any type of termination, it's no necessary to write home.html, with 'home' solo is enough -->
+  </servlet-mapping>
+  
+  <!-- 4. Deshabilitar ;jsession en la url y guardarla en cookies -->
+  <session-config>
+  	<tracking-mode>COOKIE</tracking-mode>
+  </session-config>
+  
+  <!-- 5. Needed for ContextLoaderListener to personalise the name of the file-->
+  <context-param>
+	<param-name>contextConfigLocation</param-name>
+	<param-value>/WEB-INF/spring/root-context.xml</param-value> <!-- congiguration of the root application context in this file -->
+  </context-param>
+
+  <!-- 5. Bootstraps the root web application context before servlet initialization -->
+  <listener>
+	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+	<!-- 6. Customise the Error 404 (page not found)  -->
+  <error-page>
+	<error-code>404</error-code>
+	<location>/WEB-INF/views/error/404.jsp</location>
+  </error-page>
+  
+  	<!-- 7. Customise the Error 400 (Bad request) -->
+  <error-page>
+	<error-code>400</error-code>
+	<location>/WEB-INF/views/error/400.jsp</location>
+  </error-page>
+  
+  <!-- 8. Customise the Error 403 (Forbidden) -->
+  <error-page>
+	<error-code>403</error-code>
+	<location>/WEB-INF/views/error/403.jsp</location>
+  </error-page>
+  
+  <!-- 9. Customise the Error 500 (Internal Server Error) 
+  <error-page>
+	<error-code>500</error-code>
+	<location>/WEB-INF/views/error/500.jsp</location>
+  </error-page>-->
+</web-app>

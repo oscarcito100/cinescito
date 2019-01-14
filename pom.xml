@@ -1,0 +1,79 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>oscar</groupId>
+	<artifactId>cinesCito</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<dependencies>
+		
+		<!-- 1. Adding the SPRING MVC libraries through Maven generating the directory Maven Dependencies -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>5.0.0.RELEASE</version>
+		</dependency>
+		
+		<!-- 2. Adding javax.servlet.api -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- Adding jsp-api: to send internal error messages like Error 500 -->
+		<dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>jsp-api</artifactId>
+        <version>2.0</version>
+        <scope>provided</scope>
+    </dependency>
+		
+		<!-- 3. Adding the JSTL tag libraries to our project  to be able to use them-->
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<!-- 4.Configurate SPRING DATA JPA:  need to download 4 dependencies -->
+		<!-- 4.1 SPRING DATA JPA: main dependency -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>2.1.1.RELEASE</version>
+		</dependency>
+		
+		<!-- 4.2 HIBERNATE: General dependendy of this persistence of data framework
+		                    It is the technology we use for the implementation of JPA -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.2.17.Final</version>
+		</dependency>
+		
+		<!-- 4.3 HIBERNATE VALIDATOR: aggregate validations to a JavaBeans Level -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>6.0.13.Final</version>
+		</dependency>
+		
+		<!-- 4.4 MYSQL: connect the app with a mysql database -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.12</version>
+			<!--  if you do not want to use the X DevAPI features, you may also want to add a dependency exclusion to avoid linking the unneeded sub-library
+			<exclusions>
+        		<exclusion>
+            		<groupId>com.google.protobuf</groupId>
+            		<artifactId>protobuf-java</artifactId>
+        		</exclusion>
+    		</exclusions> -->
+		</dependency>
+
+	</dependencies>
+</project>

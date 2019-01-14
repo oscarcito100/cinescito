@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+	
+	<!-- 1. Telling the packages that must scan automatically to find BEANS -->
+	<context:component-scan base-package="net.oscar.app.controller"></context:component-scan>
+	
+	<!-- 2. To be able to use the specific annotations '@'of spring -->
+	<mvc:annotation-driven />
+	
+	<!-- 3. Defining a ViewResolver to tell Spring where are the views-->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/views/</value> <!-- directories where we save the views -->
+		</property>
+		<property name="suffix">
+			<value>.jsp</value> <!-- type of the files of the views -->
+		</property>
+	</bean>
+	
+	<!-- 4. Configurating the routes of the static resources like css files, js files, images, bootstrap
+	 	 in the DispatcherServlet creating the directory '/resources/'
+	 	 ** all the files and subdirectories -->
+	<mvc:resources location="/resources/" mapping="/resources/**"></mvc:resources>
+	
+	<!-- 5. Declaration of a bean that support Multipart to allow update files from an html file -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver" />
+	
+	<!-- 6. Set up the integration of pagination by default -->
+	<mvc:annotation-driven > 
+		<mvc:argument-resolvers> 
+			<bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver"> 
+				<property name="maxPageSize" value="5"></property> 
+			</bean> 
+		</mvc:argument-resolvers> 
+	</mvc:annotation-driven>
+</beans>

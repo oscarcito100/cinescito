@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!-- 1. Activate the auto-scan to detect and instantiate beans save in this package
+	     It means, to be able to use our Classes of Services -->
+	<context:component-scan base-package="net.oscar.app.service;"></context:component-scan>
+	
+	<!-- 2. Aggregate the next declarations to be able to use Spring Data JPA  -->
+	<!-- 2.1 Tell Spring where is the package with our repositories to be able to use Interfaces
+	         where we realise CRUD operations in the DB -->
+	<jpa:repositories base-package="net.oscar.app.repository" />
+	
+	<!-- 2.2 Component DATASOURCE: allows to get a connection with a DB -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" /> <!-- com.mysql.jdbc.Driver is deprecated -->
+		<property name="url" value="jdbc:mysql://localhost:3306/cinescito?useSSL=false" /> <!-- url connection to the DB where holaMundo is the name of the DB -->
+		<property name="username" value="root" />
+		<property name="password" value="" />
+	</bean>
+	
+	<!-- 2.3 Component JPAVENDERADAPTOR: to implement JPA with HIBERNATE-->
+	<bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+		<property name="generateDdl" value="false" /> <!-- if we want that the tables are created automatically -->
+		<property name="showSql" value="true"></property> <!-- show the sql query that hibernate generates -->
+		<property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect" /> <!-- type of DB we are going to work -->
+	</bean>
+	
+	<!-- 2.4 Implement the Interface ENTITYMANAGERFACTORY: let us manage our Classes of Model-->
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="packagesToScan" value="net.oscar.app.model" /> <!-- the package where our classes od model are -->
+		<property name="dataSource" ref="dataSource" /> <!-- Implement DATASOURCE -->
+		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" /> <!-- Implement JPAVENDERADAPTOR -->
+	</bean>
+	
+	<!-- Implement TRANSACTIONMANAGER: aggregate support to our transactions making our methods
+	     transactionals -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />	
+	</bean>
+</beans>
